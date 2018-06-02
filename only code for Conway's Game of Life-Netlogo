@@ -1,0 +1,30 @@
+patches-own [new-color]
+
+to setup
+  clear-all
+  reset-ticks
+  ask patches [
+    set pcolor one-of [brown green] ; brown = dead, green = alive
+  ]
+end
+
+to go
+  tick
+  ask patches [
+    let num-live-neighbors count (neighbors with [pcolor = green])
+  set new-color pcolor
+    if-else (pcolor = green ) [; if alive
+   if (num-live-neighbors < 2 or num-live-neighbors > 3 ) [
+    set new-color brown ;; brown is dead, kill it
+    ]
+  ] [
+    if (num-live-neighbors = 3) [
+      set new-color green
+
+    ]
+  ]
+]
+ask patches [
+  set pcolor new-color
+]
+end
